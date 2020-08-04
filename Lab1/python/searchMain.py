@@ -134,7 +134,9 @@ class BinarySearch:
             data = range(length)
             r = random.randint(0, length)
             start = time_ns()
-            binary_search(data, data[r])
+            rand = data[r]
+            # binary_search(data, data[r])
+            binary_search(data, rand)
             end = time_ns()
             elapsed = end-start
             print(f"Elapsed Time for {length} datas: {round(elapsed,6)}")
