@@ -1,2 +1,5 @@
 googletest/
 .vscode/
+*.odt
+*.doc
+*.docx

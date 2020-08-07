@@ -12,16 +12,16 @@ class LinearSearch:
         self.plottingDatas = []
         self.MAX = 300000
         self.MIN = 10000
-        self.STEP = 10000
+        self.STEP = 5000
         
 
     def clearData(self):
         self.plottingDatas = []
 
-    def plotData(self, title):
+    def plotData(self, title,color):
         if(len(self.plottingDatas) <= 0):
             raise Exception("No data found")
-        plt.plot(*zip(*self.plottingDatas))
+        plt.plot(*zip(*self.plottingDatas),c=color)
         plt.title(title)
         plt.show()
 
@@ -37,7 +37,7 @@ class LinearSearch:
             print(f"Elapsed Time for {length} datas: {round(elapsed,6)}")
             self.plottingDatas.append((length, round(elapsed,6)))
         # print("Average Best Case: ",np.mean( list(zip(*self.plottingDatas))[1]))
-        self.plotData("Linear Search- Best Case")
+        self.plotData("Linear Search- Best Case",'green')
 
     def testWorstCase(self):
         print("Worst Case")
@@ -53,7 +53,7 @@ class LinearSearch:
        
         # print("Average Worst Case: ",np.mean( list(zip(*self.plottingDatas))[1]))
       
-        self.plotData("Linear Search- Worst Case")
+        self.plotData("Linear Search- Worst Case",'blue')
 
     def testAverageCase(self):
         print("Average Case")
@@ -70,7 +70,7 @@ class LinearSearch:
 
         # print("Average Average Case: ",np.mean( list(zip(*self.plottingDatas))[1]))
 
-        self.plotData("Linear Search- Average Case")
+        self.plotData("Linear Search- Average Case",'red')
 
 
 class BinarySearch:
@@ -147,7 +147,10 @@ class BinarySearch:
 
 
 if __name__ == "__main__":
+    # LinearSearch().testAverageCase()
+    # LinearSearch().testBestCase()
+    LinearSearch().testWorstCase()
     # BinarySearch().testWorstCase()
     # BinarySearch().testBestCase()
-    BinarySearch().testAverageCase()
+    # BinarySearch().testAverageCase()
     # BinarySearch().testWorstCase()
