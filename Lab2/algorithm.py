@@ -20,17 +20,16 @@ def merge(data:list,p:int,q:int,r:int):
     i,j=0,0
 
     for k in range(p,r+1):
-        
-        if(L[i]<R[j]):
-            if(k<len(data)):
-                data[k] = L[i]
-                i+=1
-        else:
-            if(k<len(data)):
-     
-                data[k] = R[j]
+        if(k<len(data)):
+            if(L[i]<R[j]):
                 
-                j+=1
+                    data[k] = L[i]
+                    i+=1
+            else:
+               
+                    data[k] = R[j]
+                    
+                    j+=1
    
 def insertionSort(data:list):
     for j in range(1,len(data)):

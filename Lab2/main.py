@@ -7,8 +7,8 @@ import time
 class SortAnalysis:
     def __init__(self):
         self.plotData = {
-                    'i':[],
-                    'm':[]
+                    'insertSort':[],
+                    'mergeSort':[]
                 } 
     
     def analyzeInsertionSort(self,low=10,high=1000,step=10):
@@ -19,8 +19,7 @@ class SortAnalysis:
             insertionSort(data)
             end = time.time()
             taken = end-start 
-            self.plotData['i'].append((i,taken))
-#            print(f"Time for {i} numbers : {taken}") 
+            self.plotData['insertSort'].append((i,taken))
 
 
 
@@ -37,21 +36,21 @@ class SortAnalysis:
             mergesort(data,0,l)
             end = time.time()
             taken = end-start 
-            self.plotData['m'].append((i,taken))
-#            print(f"Time for {i} numbers : {taken}") 
+            self.plotData['mergeSort'].append((i,taken))
 
 
     def showPlot(self):
         plt.xlabel("Total No of elements ")
-        plt.ylabel("Total time taken (in ms)")
+        plt.ylabel("Total time taken (in seconds)")
         for key in self.plotData:
             plt.plot(*zip(*self.plotData[key]),label=key)
 
         plt.legend()
         plt.show()
+        
 if __name__=='__main__':
     analyzer = SortAnalysis()
     analyzer.analyzeInsertionSort(high=50000,step=10000)
-    analyzer.analyzeMergeSort(high=100000,step=10000)
+    analyzer.analyzeMergeSort(high=50000,step=10000)
 
     analyzer.showPlot()
