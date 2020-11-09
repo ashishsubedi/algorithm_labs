@@ -61,4 +61,4 @@ def clustering_coeff_V2(G):
         H = G.subgraph([i]+G.adj[i])
         e = len(num_edges(G))
         C[i] = (2*e)/(k*(k-1)) 
-    retur
+    return C
