@@ -12,6 +12,8 @@ class BinarySearchTree:
             self.key = key
             self.value = value
 
+    
+
 
 
    # Add a node to the BST
@@ -44,15 +46,62 @@ class BinarySearchTree:
         return self._size
     # Perform inorder traversal. Must return a list of keys visited in inorder way, e.g. [1, 2, 3, 4].
     def inorder_walk(self):
-        pass
+        result = []
+        self._inorder(self.root,result)
+        return result
+
+    def _inorder(self,p,result):
+        if(p is not None):
+            self._inorder(p.left,result)
+            result.append(p.key)
+            self._inorder(p.right,result)
+        return result
+
+
 
     # Perform postorder traversal. Must return a list of keys visited in inorder way, e.g. [1, 4, 3, 2].
     def postorder_walk(self):
         pass
 
+        result = []
+        self._postorder(self.root,result)
+        
+
+        return result
+
+    def _postorder(self,p,result):
+        if p is not None:
+            self._postorder(p.left,result)
+            self._postorder(p.right,result)
+            result.append(p.key)
+        return result
+
     # Perform preorder traversal. Must return a list of keys visited in inorder way, e.g. [2, 1, 3, 4].
     def preorder_walk(self):
-        pass
+        result = []
+        if self.root is None: return result
+        
+        stack = []
+
+        
+        curr = self.root
+
+        while True:
+            while curr is not None:
+            
+                stack.append(curr)
+                result.append(curr.key)
+                curr = curr.left
+            curr = stack.pop()            
+            curr = curr.right
+             
+
+            if(len(stack) == 0 and curr is None): break
+
+        return result
+
+
+
 
     # Search the BST for the given key. Return False if the key is not found.
     def search(self, key):
@@ -69,8 +118,63 @@ class BinarySearchTree:
 
     # Remove a key from the BST. Return False if the key is not present in the BST.
     def remove(self, key):
+
+        p = self.root
+        prev = self.root
+
+        while p is not None:
+            if p.key == key:
+                # Delete key
+                
+                # If node has no child
+                if p.left is None and p.right is None:
+                    p = None
+
+                else:                    
+                    # Check if right child exist
+                    if p.right is None:
+                        #No right child, assign prev child to p.left
+                        
+                        if key < prev.key:
+                            #left child of prev
+                            prev.left = p.left
+                            p = None
+                        else:
+                            prev.right = p.left
+                            p = None
+                    else:
+                        # Since right child exist, swap with smallest node in right
+                        temp = p.right
+                        temp_prev = p 
+                        while temp.left is not None:
+                            temp_prev = temp
+                            temp = temp.left
+                        
+                        p.key = temp.key
+                        p.value = temp.value
+
+                        if(temp.key < temp_prev.key):
+                            temp_prev.left = None
+
+                        else:
+                            temp_prev.right = None
+                        
+                        del temp
+                self._size -= 1
+                return True 
+
+            elif key < p.key:
+                prev = p
+
+                p = p.left
+
+            else:
+                prev = p
+                p = p.right
+            
+        return False
         
-        pass
+       
 
     # Find the smallest key and return the corresponding key-value pair/tuple, i.e. (key, value)
     def smallest(self):
