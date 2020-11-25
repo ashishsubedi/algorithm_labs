@@ -1,0 +1,131 @@
+// Extension link
+// https://marketplace.visualstudio.com/items?itemName=willumz.generic-pseudocode
+
+function bruteforce(w,p,max) do
+
+"
+    w = weights of n items
+    p = values of n items
+    max = maximum capicity
+"
+    set maxProfit = 0
+
+    set maxSelection = all '0' selection
+    set solutions = list of all possible solutions
+
+    foreach (s in solutions) do
+        set profit = Sum of profit of selected items in s
+        set weight = Sum of weight of selected items in s
+
+        if (weight <= max and profit > maxProfit) do
+           set maxProfit = profit
+           set maxSelection = s 
+        end
+    end
+
+    return string of maxSelection, maxProfit
+end
+
+
+function bruteforce_fractional(w,p,C) do
+    "
+    w = weights of n items
+    p = values of n items
+    C = maximum capicity
+"
+    set maxProfit = 0
+
+    set maxSelection = all '0' selection
+    set solutions = list of all possible solutions
+
+    foreach (s in solutions) do
+        set non_frac_profit = Sum of profit of selected items  in s
+        set weight = Sum of weight of selected items in s
+
+        set frac_profit = max of (p[i]/w[i]*rem) for i in s where s[i]=='0',
+                    rem = Min of (C-weight, w[i])
+        set newS = (frac_profit/p[i]) where i is index of maximum frac_profit
+
+        totalProfit = non_frac_profit + frac_profit
+
+        if (weight <= max and totalProfit >= maxProfit) do
+           set maxProfit = profit
+           set maxSelection = newS
+        end
+    end
+
+    return string of maxSelection, maxProfit
+
+end
+
+function greedy(w,p,max) do
+"
+    w = weights of n items
+    p = values of n items
+    max = maximum capicity
+" 
+
+    set pw = Tuple of (index of ith item, p[i]/w[i] ratio)
+    set current_weight = 0, profit = 0
+    set selected = list of '0' of n elements
+
+    sort pw in descending order
+    foreach (index,ratio in pw) do
+        if current_weight+w[index] <= max do
+            set current_weight = current_weight + w[index]
+            set selected[index] = '1'
+            set profit = profit + p[index]
+        
+        end else do
+            
+            set remaining = max - current_weight
+            set profit = profit + (ratio * remaining) 
+            set selected[index] = remaining/w[index]
+
+        end
+    end
+    return string of selected, maxProfit
+
+end
+
+function dp(w,p,m) do
+"
+    w = weights of n items
+    p = values of n items
+    m = maximum capicity
+" 
+  
+    set n = w.length
+    set v = Zero Matrix of size n+1*m+1
+    set selection = list of '0' of n elements
+
+    for i = 1 to n do
+        for j = 1 to m do
+            if j-w[i] < 0 do
+                continue
+            end else do
+                set v[i][j] = max (v[i-1][j], v[i-1][j-w[i]]+p[i])
+            end
+        end
+    end 
+
+    set i=n, j = m
+
+    while i!=0 do
+        if v[i][j] > v[i-1][j] do
+            set selection[i-1] = '1'
+            set j = j - w[i]
+            
+            if j <= 0 do
+                break
+            end
+
+        end
+        
+        i--
+
+    end
+
+    return string of selection, v[n][m]
+
+end

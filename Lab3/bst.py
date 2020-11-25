@@ -12,10 +12,6 @@ class BinarySearchTree:
             self.key = key
             self.value = value
 
-    
-
-
-
    # Add a node to the BST
     def add(self, key, value):
 
@@ -53,9 +49,10 @@ class BinarySearchTree:
     def _inorder(self,p,result):
         if(p is not None):
             self._inorder(p.left,result)
+            
             result.append(p.key)
             self._inorder(p.right,result)
-        return result
+        
 
 
 
@@ -120,7 +117,7 @@ class BinarySearchTree:
     def remove(self, key):
 
         p = self.root
-        prev = self.root
+        prev = None
 
         while p is not None:
             if p.key == key:
@@ -129,37 +126,58 @@ class BinarySearchTree:
                 # If node has no child
                 if p.left is None and p.right is None:
                     p = None
+                    if prev == None:
+                        self.root = None
 
                 else:                    
-                    # Check if right child exist
+                    # Check if right child exist and 
                     if p.right is None:
                         #No right child, assign prev child to p.left
-                        
-                        if key < prev.key:
-                            #left child of prev
-                            prev.left = p.left
-                            p = None
+                        if prev == None:
+                            # Root is being deleted, update root
+                            self.root = p.left
+
                         else:
-                            prev.right = p.left
-                            p = None
+                            if key < prev.key:
+                                #left child of prev
+                                prev.left = p.left
+                                p = None
+                            else:
+                                prev.right = p.left
+                                p = None
+
                     else:
-                        # Since right child exist, swap with smallest node in right
+                        # Since both child exist, swap with smallest node in right
                         temp = p.right
                         temp_prev = p 
+
+                        #Could have called self.smallest() but need to keep track of previous node as well
                         while temp.left is not None:
                             temp_prev = temp
                             temp = temp.left
-                        
-                        p.key = temp.key
-                        p.value = temp.value
 
-                        if(temp.key < temp_prev.key):
-                            temp_prev.left = None
+                        if(p.right == temp):
+                            #temp is the right child of p
+                            temp.left = p.left
+                            p.right = None
+                            del p
+
+                            #Check if root is being deleted
+                            if prev == None:
+                                self.root = temp
 
                         else:
-                            temp_prev.right = None
+                            p.key = temp.key
+                            p.value = temp.value
+
+                            if(temp.key < temp_prev.key):
+                                temp_prev.left = None
+
+                            else:
+                                
+                                temp_prev.right = None
                         
-                        del temp
+                            del temp
                 self._size -= 1
                 return True 
 

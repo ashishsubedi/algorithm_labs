@@ -132,7 +132,7 @@ class BSTTestCase(unittest.TestCase):
 class CustomBSTTest(unittest.TestCase):
 
     def setUp(self):
-        self.data = [(1,1),(10,10),(11,11),(15,15),(17,17),(25,25),(6,6)]
+        self.data = [(11,11),(10,10),(15,15),(1,1),(17,17),(25,25),(6,6)]
 
         self.bst = BinarySearchTree()
         for (key,val) in self.data:
@@ -172,78 +172,70 @@ class CustomBSTTest(unittest.TestCase):
 
         self.assertListEqual(self.bst.inorder_walk(),list(map(lambda x: x[0],data)))
 
-    # def test_postorder(self):
-    #     """
-    #     tests for postorder_walk
-    #     """
-    #     self.assertListEqual(self.bst.postorder_walk(), [1, 8, 5, 30, 45, 40, 52, 10])
-
-    #     # Add one node
-    #     self.bst.add(25, "Value for 25")
-    #     # Inorder traversal must return a different sequence
-    #     self.assertListEqual(self.bst.postorder_walk(), [1, 8, 5, 25, 30, 45, 40, 52, 10])
-
-    # def test_preorder(self):
-    #     """
-    #     tests for preorder_walk
-    #     """
-    #     self.assertListEqual(self.bst.preorder_walk(), [10, 5, 1, 8, 52, 40, 30, 45])
-
-    #     # Add one node
-    #     self.bst.add(25, "Value for 25")
-    #     # Inorder traversal must return a different sequence
-    #     self.assertListEqual(self.bst.preorder_walk(), [10, 5, 1, 8, 52, 40, 30, 25, 45])
+    def testPostorder(self):
     
-    # def test_search(self):
-    #     """
-    #     tests for search
-    #     """
-    #     self.assertEqual(self.bst.search(40), "Value for 40")
-
-    #     self.assertFalse(self.bst.search(90))
-
-    #     self.bst.add(90, "Value for 90")
-    #     self.assertEqual(self.bst.search(90), "Value for 90")
-
-    # def test_remove(self):
-    #     """
-    #     tests for remove
-    #     """
-    #     self.bst.remove(40)
         
-    #     self.assertEqual(self.bst.size(), 7)
-    #     self.assertListEqual(self.bst.inorder_walk(), [1, 5, 8, 10, 30, 45, 52])
-    #     self.assertListEqual(self.bst.preorder_walk(), [10, 5, 1, 8, 52, 45,30])
+        self.assertListEqual(self.bst.postorder_walk(),  [6,1,10,25,17,15,11])
 
-    # def test_smallest(self):
-    #     """
-    #     tests for smallest
-    #     """
-    #     self.assertTupleEqual(self.bst.smallest(), (1, "Value for 1"))
+ 
+        self.bst.add(12,12)
+   
+        self.assertListEqual(self.bst.postorder_walk(),  [6,1,10,12,25,17,15,11])
 
-    #     # Add some nodes
-    #     self.bst.add(6, "Value for 6")
-    #     self.bst.add(4, "Value for 4")
-    #     self.bst.add(0, "Value for 0")
-    #     self.bst.add(32, "Value for 32")
+    def testPreorder(self):
+      
+        self.assertListEqual(self.bst.preorder_walk(), [11,10,1,6,15,17,25])
 
-    #     # Now the smallest key is 0.
-    #     self.assertTupleEqual(self.bst.smallest(), (0, "Value for 0"))
+        self.bst.add(12, 12)
+        
+        self.assertListEqual(self.bst.preorder_walk(), [11,10,1,6,15,12,17,25])
+    
+    def testSearch(self):
+       
+        self.assertEqual(self.bst.search(11), 11)
 
-    # def test_largest(self):
-    #     """
-    #     tests for largest
-    #     """
-    #     self.assertTupleEqual(self.bst.largest(), (52, "Value for 52"))
+        self.assertFalse(self.bst.search(90))
 
-    #     # Add some nodes
-    #     self.bst.add(6, "Value for 6")
-    #     self.bst.add(54, "Value for 54")
-    #     self.bst.add(0, "Value for 0")
-    #     self.bst.add(32, "Value for 32")
+        
+        self.assertEqual(self.bst.search(10), 10)
 
-    #     # Now the largest key is 54
-    #     self.assertTupleEqual(self.bst.largest(), (54, "Value for 54"))
+    def testRemove(self):
+        
+        self.assertFalse(self.bst.remove(40))
+        
+        self.assertEqual(self.bst.size(), 7)
+
+        self.assertTrue(self.bst.remove(11))
+        
+        self.assertEqual(self.bst.size(), 6)
+
+        self.assertListEqual(self.bst.inorder_walk(), [1,6, 10, 15,17,25])
+        self.assertListEqual(self.bst.preorder_walk(), [15,10,1,6,17,25])
+
+    def testSmallest(self):
+       
+        self.assertTupleEqual(self.bst.smallest(), (1, 1))
+
+       
+        self.bst.add(6,6)
+        self.bst.add(4,4)
+        self.bst.add(0,0)
+        self.bst.add(32,32)
+
+        # Now the smallest key is 0.
+        self.assertTupleEqual(self.bst.smallest(), (0, 0))
+
+    def testLargest(self):
+     
+        self.assertTupleEqual(self.bst.largest(), (25, 25))
+
+        self.bst.add(6,6)
+        self.bst.add(54,54)
+        self.bst.add(0,0)
+        self.bst.add(32,32)
+
+        # Now the largest key is 54
+        self.assertTupleEqual(self.bst.largest(), (54, 54))
 
 
 
